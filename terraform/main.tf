@@ -2,7 +2,11 @@ terraform {
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
-      version = "2.8.0"
+      version = ">=2.8.0"
+    },
+    azuredevops = {
+      source = "microsoft/azuredevops"
+      version = ">=0.1.0"
     }
   }
 }

@@ -1,0 +1,39 @@
+---
+- hosts: azure-servers
+  become: yes
+  pre_tasks:
+    - name: Install required libs
+      apt:
+        state: latest
+        pkg:
+         - git
+         - maven
+         - gradle
+         - npm
+         - openjdk-11-jdk
+    - name: Install go
+      snap:
+        classic: true
+        name: go
+        state: present
+
+    - name: Add group hack for role to work
+      group:
+        name: az_devops_agent
+        state: present
+      become: true
+
+  roles:
+    - gsoft.azure_devops_agent
+  vars:
+    - az_devops_agent_role: build
+    - az_devops_accountname: random-devops
+    - az_devops_accesstoken: !vault |
+        $ANSIBLE_VAULT;1.1;AES256
+        33396138386233323632643035663262313737653162363338646236313932313063363764386162
+        3931393333306339393536633666613933653363353865370a636362333933636138346263323536
+        66366435363461316534333034383438303634363238656563653163313731306434356264633765
+        6432333133626364650a636462613931653865376331633135386639343830323439353765636333
+        3630
+    - az_devops_agent_user_capabilities:
+        JAVA_HOME_11_X64: /usr/lib/jvm/java-11-openjdk-amd64

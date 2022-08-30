@@ -1,0 +1,5 @@
+[azure-servers]
+azure-00 ansible_host=10.0.0.76
+
+[azure-servers:vars]
+ansible_user=ansible
